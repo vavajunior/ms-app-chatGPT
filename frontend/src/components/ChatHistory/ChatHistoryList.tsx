@@ -73,7 +73,7 @@ const ChatHistoryList: React.FC<ChatHistoryListProps> = () => {
       <Stack horizontal horizontalAlign="center" verticalAlign="center" style={{ width: '100%', marginTop: 10 }}>
         <StackItem>
           <Text style={{ alignSelf: 'center', fontWeight: '400', fontSize: 14 }}>
-            <span>No chat history.</span>
+            <span>Sem histórico de conversas.</span>
           </Text>
         </StackItem>
       </Stack>

@@ -51,12 +51,12 @@ const Layout = () => {
     const handleResize = () => {
       if (window.innerWidth < 480) {
         setShareLabel(undefined)
-        setHideHistoryLabel('Hide history')
-        setShowHistoryLabel('Show history')
+        setHideHistoryLabel('Ocultar histórico')
+        setShowHistoryLabel('Mostrar histórico')
       } else {
         setShareLabel('Share')
-        setHideHistoryLabel('Hide chat history')
-        setShowHistoryLabel('Show chat history')
+        setHideHistoryLabel('Ocultar histórico')
+        setShowHistoryLabel('Mostrar histórico')
       }
     }
 

@@ -13,7 +13,7 @@ import { nord } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 import styles from './Chat.module.css'
 import Contoso from '../../assets/Contoso.svg'
-import { XSSAllowTags } from '../../constants/xssAllowTags'
+import { XSSAllowTags } from '../../constants/sanatizeAllowables'
 
 import {
   ChatMessage,
@@ -32,7 +32,6 @@ import {
   CosmosDBStatus,
   ErrorMessage,
   ExecResults,
-  AzureSqlServerCodeExecResult
 } from "../../api";
 import { Answer } from "../../components/Answer";
 import { QuestionInput } from "../../components/QuestionInput";
@@ -825,7 +824,7 @@ const Chat = () => {
             )}
 
             <Stack horizontal className={styles.chatInput}>
-              {isLoading && (
+              {isLoading && messages.length > 0 && (
                 <Stack
                   horizontal
                   className={styles.stopGeneratingContainer}
@@ -930,7 +929,7 @@ const Chat = () => {
                 horizontalAlign="space-between"
                 verticalAlign="center">
                 <span aria-label="Citations" className={styles.citationPanelHeader}>
-                  Citations
+                  Citações
                 </span>
                 <IconButton
                   iconProps={{ iconName: 'Cancel' }}

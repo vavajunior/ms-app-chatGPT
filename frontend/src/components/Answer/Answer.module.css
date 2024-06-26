@@ -64,7 +64,7 @@
 .citationWrapper {
   margin-top: 8;
   display: flex;
-  flex-flow: wrap column;
+  flex-flow: wrap row;
   max-height: 150px;
   gap: 4px;
 }

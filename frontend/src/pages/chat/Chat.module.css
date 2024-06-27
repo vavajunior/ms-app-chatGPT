@@ -45,7 +45,7 @@
   align-items: flex-end;
   text-align: center;
   line-height: 24px;
-  margin-top: 36px;
+  margin-top: 25px;
   margin-bottom: 0px;
 }
 
@@ -62,7 +62,7 @@
 }
 
 .chatIcon {
-  height: 62px;
+  height: 70px;
   width: auto;
 }
 

@@ -45,7 +45,7 @@ const Layout = () => {
     }
   }, [copyClicked])
 
-  useEffect(() => {}, [appStateContext?.state.isCosmosDBAvailable.status])
+  useEffect(() => { }, [appStateContext?.state.isCosmosDBAvailable.status])
 
   useEffect(() => {
     const handleResize = () => {
@@ -125,6 +125,17 @@ const Layout = () => {
           </div>
         </Stack>
       </Dialog>
+      {ui?.chat_logo_footer &&
+        <footer className={styles.footer}>
+          <div className={styles.footerTitle}>
+            <p>{ui?.title_footer}</p>
+          </div>
+          <div></div>
+          <div className={styles.footerLogo}>
+            <img src={ui?.chat_logo_footer} alt="" />
+          </div>
+        </footer>
+      }
     </div>
   )
 }

@@ -139,10 +139,10 @@
 .chatInput {
   position: sticky;
   flex: 0 0 100px;
-  padding-top: 12px;
+  /* padding-top: 12px;
   padding-bottom: 24px;
   padding-left: 24px;
-  padding-right: 24px;
+  padding-right: 24px; */
   width: calc(100% - 100px);
   max-width: 1028px;
   margin-bottom: 50px;
@@ -195,6 +195,15 @@
   color: #ffffff;
   border-radius: 4px;
   z-index: 1;
+}
+
+.chatAddRegular {
+  padding: 6px;
+  font-size: 48px;
+  border-radius: 16px;
+  background: #0f6cbd;
+  color: #ffff;
+  cursor: pointer;
 }
 
 .stopGeneratingContainer {

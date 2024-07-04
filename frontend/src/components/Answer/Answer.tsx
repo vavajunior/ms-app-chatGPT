@@ -155,36 +155,36 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
   const UnhelpfulFeedbackContent = () => {
     return (
       <>
-        <div>Why wasn't this response helpful?</div>
+        <div>Por que esta resposta não foi útil?</div>
         <Stack tokens={{ childrenGap: 4 }}>
           <Checkbox
-            label="Citations are missing"
+            label="Faltam citações"
             id={Feedback.MissingCitation}
             defaultChecked={negativeFeedbackList.includes(Feedback.MissingCitation)}
             onChange={updateFeedbackList}></Checkbox>
           <Checkbox
-            label="Citations are wrong"
+            label="As citações estão erradas"
             id={Feedback.WrongCitation}
             defaultChecked={negativeFeedbackList.includes(Feedback.WrongCitation)}
             onChange={updateFeedbackList}></Checkbox>
           <Checkbox
-            label="The response is not from my data"
+            label="A resposta não vem dos meus dados"
             id={Feedback.OutOfScope}
             defaultChecked={negativeFeedbackList.includes(Feedback.OutOfScope)}
             onChange={updateFeedbackList}></Checkbox>
           <Checkbox
-            label="Inaccurate or irrelevant"
+            label="Impreciso ou irrelevante"
             id={Feedback.InaccurateOrIrrelevant}
             defaultChecked={negativeFeedbackList.includes(Feedback.InaccurateOrIrrelevant)}
             onChange={updateFeedbackList}></Checkbox>
           <Checkbox
-            label="Other"
+            label="Outro"
             id={Feedback.OtherUnhelpful}
             defaultChecked={negativeFeedbackList.includes(Feedback.OtherUnhelpful)}
             onChange={updateFeedbackList}></Checkbox>
         </Stack>
-        <div onClick={() => setShowReportInappropriateFeedback(true)} style={{ color: '#115EA3', cursor: 'pointer' }}>
-          Report inappropriate content
+        <div hidden onClick={() => setShowReportInappropriateFeedback(true)} style={{ color: '#115EA3', cursor: 'pointer' }}>
+          Denunciar conteúdo impróprio
         </div>
       </>
     )
@@ -325,7 +325,7 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
             </Stack.Item>
           )}
           <Stack.Item className={styles.answerDisclaimerContainer}>
-            <span className={styles.answerDisclaimer}>O conteúdo gerado por IA pode estar incorreto</span>
+            <span className={styles.answerDisclaimer}>O conteúdo gerado por IA pode não estar sempre certo.</span>
           </Stack.Item>
           {!!answer.exec_results?.length && (
             <Stack.Item onKeyDown={e => (e.key === 'Enter' || e.key === ' ' ? toggleIsRefAccordionOpen() : null)}>
@@ -395,18 +395,18 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
           ]
         }}
         dialogContentProps={{
-          title: 'Submit Feedback',
+          title: 'Por que você escolheu esta classificação?',
           showCloseButton: true
         }}>
-        <Stack tokens={{ childrenGap: 4 }}>
-          <div>Your feedback will improve this experience.</div>
+        <Stack tokens={{ childrenGap: 4 }} className={styles.feedbackDialog}>
+          <div>Seu feedback ajudará a melhorar esta experiência.</div>
 
           {!showReportInappropriateFeedback ? <UnhelpfulFeedbackContent /> : <ReportInappropriateFeedbackContent />}
 
-          <div>By pressing submit, your feedback will be visible to the application owner.</div>
+          <div hidden>By pressing submit, your feedback will be visible to the application owner.</div>
 
           <DefaultButton disabled={negativeFeedbackList.length < 1} onClick={onSubmitNegativeFeedback}>
-            Submit
+            Enviar
           </DefaultButton>
         </Stack>
       </Dialog>

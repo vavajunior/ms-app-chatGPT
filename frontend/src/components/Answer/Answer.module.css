@@ -186,11 +186,7 @@ sup {
 
 .feedbackDialog {
   font-size: 16px;
-}
-
-.feedbackContent {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  row-gap: 10px;
 }
 
 @media (max-width: 480px) {

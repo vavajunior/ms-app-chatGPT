@@ -154,7 +154,7 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
 
   const UnhelpfulFeedbackContent = () => {
     return (
-      <>
+      <div className={styles.feedbackContent}>
         <div>Por que esta resposta não foi útil?</div>
         <Stack tokens={{ childrenGap: 4 }}>
           <Checkbox
@@ -186,7 +186,7 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
         <div hidden onClick={() => setShowReportInappropriateFeedback(true)} style={{ color: '#115EA3', cursor: 'pointer' }}>
           Denunciar conteúdo impróprio
         </div>
-      </>
+      </div>
     )
   }
 
@@ -395,7 +395,7 @@ export const Answer = ({ answer, onCitationClicked, onExectResultClicked }: Prop
           ]
         }}
         dialogContentProps={{
-          title: 'Por que você escolheu esta classificação?',
+          title: 'Enviar comentários',
           showCloseButton: true
         }}>
         <Stack tokens={{ childrenGap: 4 }} className={styles.feedbackDialog}>

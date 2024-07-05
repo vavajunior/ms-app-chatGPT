@@ -317,6 +317,11 @@
   flex-grow: 0;
 }
 
+.citationPanelContent > p {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
 .exectResultList {
   display: flex;
   flex-direction: column;

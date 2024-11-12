@@ -327,12 +327,38 @@ export const frontendSettings = async (): Promise<Response | null> => {
 
   return response
 }
+
 export const historyMessageFeedback = async (messageId: string, feedback: string): Promise<Response> => {
   const response = await fetch('/history/message_feedback', {
     method: 'POST',
     body: JSON.stringify({
       message_id: messageId,
       message_feedback: feedback
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => {
+      return res
+    })
+    .catch(_err => {
+      console.error('There was an issue logging feedback.')
+      const errRes: Response = {
+        ...new Response(),
+        ok: false,
+        status: 500
+      }
+      return errRes
+    })
+  return response
+}
+
+export const historyDocumentDetails = async (chunkId: string): Promise<Response> => {
+  const response = await fetch('/history/document_details', {
+    method: 'POST',
+    body: JSON.stringify({
+      chunk_id: chunkId
     }),
     headers: {
       'Content-Type': 'application/json'

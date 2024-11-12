@@ -745,8 +745,24 @@ class _MongoDbSettings(BaseSettings, DatasourcePayloadConstructor):
             "type": self._type,
             "parameters": parameters
         }
-        
-        
+
+class _StorageAccountSettings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_prefix="AZURE_STORAGE_ACCOUNT_",
+        env_file=DOTENV_PATH,
+        extra="ignore",
+        env_ignore_empty=True
+    )
+    name: str
+    key: str    
+    endpoint_suffix: str = Field(default="blob.core.windows.net", exclude=True)
+    endpoint_blob: Optional[str] = None
+
+    @model_validator(mode="after")
+    def set_endpoint_blob(self) -> Self:
+        self.endpoint_blob = f"https://{self.name}.{self.endpoint_suffix}"
+        return self
+
 class _BaseSettings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=DOTENV_PATH,
@@ -770,6 +786,7 @@ class _AppSettings(BaseModel):
     chat_history: Optional[_ChatHistorySettings] = None
     datasource: Optional[DatasourcePayloadConstructor] = None
     promptflow: Optional[_PromptflowSettings] = None
+    storage_account: Optional[_StorageAccountSettings] = None
 
     @model_validator(mode="after")
     def set_promptflow_settings(self) -> Self:
@@ -789,6 +806,16 @@ class _AppSettings(BaseModel):
         except ValidationError:
             self.chat_history = None
         
+        return self
+    
+    @model_validator(mode="after")
+    def set_storage_account_settings(self) -> Self:
+        try:
+            self.storage_account = _StorageAccountSettings()
+
+        except ValidationError:
+            self.storage_account = None
+
         return self
     
     @model_validator(mode="after")

@@ -21,10 +21,15 @@ from azure.identity.aio import (
     DefaultAzureCredential,
     get_bearer_token_provider
 )
+from azure.search.documents import SearchClient
+from azure.core.credentials import AzureKeyCredential
+
 from backend.auth.auth_utils import get_authenticated_user_details
+from backend.blob_utils import get_blob
 from backend.security.ms_defender_utils import get_msdefender_user_json
 from backend.history.cosmosdbservice import CosmosConversationClient
-from backend.settings import (
+from backend.settings import (    
+    _AzureSearchSettings,
     app_settings,
     MINIMUM_SUPPORTED_AZURE_OPENAI_PREVIEW_API_VERSION
 )
@@ -859,6 +864,42 @@ async def ensure_cosmos():
             )
         else:
             return jsonify({"error": "CosmosDB is not working"}), 500
+
+
+@bp.route("/history/document_details", methods=["POST"])
+async def get_document_details():
+    authenticated_user = get_authenticated_user_details(request_headers=request.headers)
+    user_id = authenticated_user["user_principal_id"]
+
+   ## check request for chunk_id
+    request_json = await request.get_json()
+    chunk_id = request_json.get("chunk_id", None)
+
+    if not chunk_id:
+        return jsonify({"error": "chunk_id is required"}), 400
+    
+    ## get Search Settings
+    if not isinstance(app_settings.datasource, _AzureSearchSettings):  
+        return jsonify({"error": "The datasource is not of type _AzureSearchSettings."}), 400
+    if app_settings.storage_account is None:
+        return jsonify({"error": "The Storage Account is not configured."}), 400
+    
+    azure_search_settings = app_settings.datasource
+    credential = AzureKeyCredential(azure_search_settings.key)
+
+    ## get document
+    search_client = SearchClient(endpoint=azure_search_settings.endpoint,
+                      index_name=azure_search_settings.index,
+                      credential=credential)
+
+    result_document = search_client.get_document(key=chunk_id)
+    blob_path = result_document["metadata_storage_path"]
+    
+    blob_url, blob_metadata = get_blob(blob_path=blob_path, 
+                                       account_url=app_settings.storage_account.endpoint_blob, 
+                                       account_key=app_settings.storage_account.key)
+
+    return jsonify({"chunk_id": chunk_id, "blob_url": blob_url, "blob_metadata": blob_metadata}), 200
 
 
 async def generate_title(conversation_messages) -> str:

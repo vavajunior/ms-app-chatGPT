@@ -1,31 +1,23 @@
+import logging
 from azure.storage.blob import BlobServiceClient, BlobSasPermissions, generate_blob_sas
 from datetime import datetime, timezone, timedelta
-from urllib.parse import urlparse, unquote
+from urllib.parse import unquote
 
-def get_blob (blob_path, account_url, account_key):
+def get_blob_details (blob_name, container_name, account_url, account_key):
     blob_service_client = BlobServiceClient(  
         account_url=account_url,
         credential=account_key
     )
 
-    container_name, blob_name = extract_container_and_blob_name(blob_path)
     blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
-
     blob_properties = blob_client.get_blob_properties()
+    blob_metadata = blob_properties.metadata
+
     sas_token = generate_sas_url(blob_client)
     blob_url = f"{blob_client.url}?{sas_token}"
-    return blob_url, blob_properties.metadata
 
-def extract_container_and_blob_name(url):
-    parsed_url = urlparse(url)
-    path_parts = parsed_url.path.lstrip('/').split('/', 1)  
-      
-    if len(path_parts) < 2:  
-        raise ValueError("O URL fornecido não possui um caminho válido para o contêiner e o blob.")  
-    
-    container_name = path_parts[0]
-    blob_name = unquote(path_parts[1])
-    return container_name, blob_name  
+    blob_titulo, blob_metadata_ajustado = format_metadata(blob_metadata, blob_name)    
+    return blob_url, blob_titulo, blob_metadata_ajustado
 
 # Create a SAS token that's valid for one hour
 def generate_sas_url(blob_client): 
@@ -42,3 +34,31 @@ def generate_sas_url(blob_client):
         protocol='https'
     )
     return sas_token
+
+def format_metadata(blob_metadata, blob_name):
+    # Recupera o Titulo e caso não encontre o valor padrão é o do blob_name
+    # Remove o Titulo da lista blob_metadata
+    blob_titulo = unquote(blob_metadata.get("Titulo", blob_name))
+    if "Titulo" in blob_metadata:
+        del blob_metadata["Titulo"]
+
+    # Formata a DataPublicacao
+    if "DataPublicacao" in blob_metadata:
+        data_original  = blob_metadata["DataPublicacao"]
+        if data_original:
+            try:
+                ano, mes, dia = map(int, data_original.split('-'))
+                blob_metadata["DataPublicacao"] = f"{dia:02d}/{mes:02d}/{ano}"
+            except ValueError:
+                logging.exception("Formato de data inválido. Mantendo o valor original.")
+
+    # Ajustar nomes dos metadados
+    # As outras chaves que não estão aqui serão mantidas como estão
+    mapeamento_chaves = {
+        "Codigo": "Código",
+        "AreaGestora": "Área Gestora",
+        "DataPublicacao": "Data Publicação",
+        "Situacao": "Situação", 
+    }
+    blob_metadata_ajustado = {mapeamento_chaves.get(k, k): v for k, v in blob_metadata.items()}
+    return blob_titulo, blob_metadata_ajustado

@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useContext, useLayoutEffect } from 'react'
-import { IconButton, Dialog, DialogType, Stack, TooltipHost } from '@fluentui/react'
+import { IconButton, Dialog, DialogType, Stack, TooltipHost, DefaultButton } from '@fluentui/react'
 import { SquareRegular, ShieldLockRegular, ErrorCircleRegular, ChatAddRegular } from '@fluentui/react-icons'
 
 import ReactMarkdown from 'react-markdown'
@@ -32,6 +32,7 @@ import {
   CosmosDBStatus,
   ErrorMessage,
   ExecResults,
+  historyDocumentDetails,
 } from "../../api";
 import { Answer } from "../../components/Answer";
 import { QuestionInput } from "../../components/QuestionInput";
@@ -701,9 +702,15 @@ const Chat = () => {
     chatMessageStreamEnd.current?.scrollIntoView({ behavior: 'smooth' })
   }, [showLoadingMessage, processMessages])
 
-  const onShowCitation = (citation: Citation) => {
-    setActiveCitation(citation)
+  const onShowCitation = async (citation: Citation) => {
     setIsCitationPanelOpen(true)
+
+    if (citation.filepath) {
+      const document_details = await historyDocumentDetails(citation.filepath)
+      citation.document_details = document_details
+      console.log("document_details", document_details)
+    }
+    setActiveCitation(citation)
   }
 
   const onShowExecResult = (answerId: string) => {
@@ -713,6 +720,9 @@ const Chat = () => {
   const onViewSource = (citation: Citation) => {
     if (citation.url && !citation.url.includes('blob.core')) {
       window.open(citation.url, '_blank')
+    }
+    else if (citation.document_details) {
+      window.open(citation.document_details.blob_url, '_blank')
     }
   }
 
@@ -755,6 +765,20 @@ const Chat = () => {
       clearingChat ||
       appStateContext?.state.chatHistoryLoadingState === ChatHistoryLoadingState.Loading
     )
+  }
+
+  const formata_titulo_Citation = (citation: Citation): JSX.Element => {
+    const titulo = citation.document_details ?
+      `${citation.filepath?.replace(/_/g, ' ').replace(/\.pdf$/i, '')} - ${citation.document_details.blob_titulo}`
+      : citation.title
+    return (
+      <h5
+        className={styles.citationPanelTitle}
+        tabIndex={0}
+        title={citation.filepath ?? ''}
+        onClick={() => onViewSource(citation)}>
+        {titulo}
+      </h5>)
   }
 
   const tooltipId = useId('tooltip');
@@ -915,22 +939,33 @@ const Chat = () => {
                   onClick={() => setIsCitationPanelOpen(false)}
                 />
               </Stack>
-              <h5
-                className={styles.citationPanelTitle}
-                tabIndex={0}
-                title={
-                  activeCitation.url && !activeCitation.url.includes('blob.core')
-                    ? activeCitation.url
-                    : activeCitation.title ?? ''
-                }
-                onClick={() => onViewSource(activeCitation)}>
-                {activeCitation.title}
-              </h5>
+              {
+                formata_titulo_Citation(activeCitation)
+              }
+              {activeCitation.document_details &&
+                <div tabIndex={0}>
+                  <DefaultButton
+                    text="Abrir normativo"
+                    iconProps={{ iconName: 'TextDocument' }}
+                    onClick={() => onViewSource(activeCitation)}
+                  />
+                  <ul className={styles.citationPanelListMetadata}>
+                    {Object.entries(activeCitation.document_details.blob_metadata).map(([key, value]) => (
+                      <li key={key}>
+                        <strong>{key}: </strong>{value}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              }
               <div tabIndex={0}>
+                <span>
+                  <strong>Trecho de referência:</strong>
+                </span>
                 <ReactMarkdown
                   linkTarget="_blank"
                   className={styles.citationPanelContent}
-                  children={DOMPurify.sanitize(activeCitation.content, { ALLOWED_TAGS: XSSAllowTags })}
+                  children={DOMPurify.sanitize(activeCitation.content, { ALLOWED_TAGS: XSSAllowTags }).split('\n').slice(0, -2).join('\n')}
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw]}
                 />

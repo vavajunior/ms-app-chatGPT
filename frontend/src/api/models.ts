@@ -18,6 +18,14 @@ export type Citation = {
   metadata: string | null
   chunk_id: string | null
   reindex_id: string | null
+  document_details?: DocumentDetails | null
+}
+
+export type DocumentDetails = {
+  file_path: string
+  blob_titulo: string
+  blob_url: string
+  blob_metadata: { [key: string]: string }
 }
 
 export type ToolMessageContent = {

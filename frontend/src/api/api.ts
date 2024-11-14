@@ -1,6 +1,6 @@
 import { chatHistorySampleData } from '../constants/chatHistory'
 
-import { ChatMessage, Conversation, ConversationRequest, CosmosDBHealth, CosmosDBStatus, UserInfo } from './models'
+import { ChatMessage, Conversation, ConversationRequest, CosmosDBHealth, CosmosDBStatus, DocumentDetails, UserInfo } from './models'
 
 export async function conversationApi(options: ConversationRequest, abortSignal: AbortSignal): Promise<Response> {
   const response = await fetch('/conversation', {
@@ -354,27 +354,20 @@ export const historyMessageFeedback = async (messageId: string, feedback: string
   return response
 }
 
-export const historyDocumentDetails = async (chunkId: string): Promise<Response> => {
+export const historyDocumentDetails = async (filepath: string): Promise<DocumentDetails | null> => {
   const response = await fetch('/history/document_details', {
     method: 'POST',
     body: JSON.stringify({
-      chunk_id: chunkId
+      file_path: filepath
     }),
     headers: {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => {
-      return res
-    })
-    .catch(_err => {
-      console.error('There was an issue logging feedback.')
-      const errRes: Response = {
-        ...new Response(),
-        ok: false,
-        status: 500
-      }
-      return errRes
-    })
-  return response
+  if (!response.ok) {
+    console.error('There was an issue fetching your data.')
+    return null
+  }
+  const payload = await response.json()
+  return payload
 }

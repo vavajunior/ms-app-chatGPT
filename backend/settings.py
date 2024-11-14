@@ -754,7 +754,8 @@ class _StorageAccountSettings(BaseSettings):
         env_ignore_empty=True
     )
     name: str
-    key: str    
+    key: str
+    container: str
     endpoint_suffix: str = Field(default="blob.core.windows.net", exclude=True)
     endpoint_blob: Optional[str] = None
 

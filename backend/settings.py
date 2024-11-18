@@ -756,12 +756,11 @@ class _StorageAccountSettings(BaseSettings):
     name: str
     key: str
     container: str
-    endpoint_suffix: str = Field(default="blob.core.windows.net", exclude=True)
     endpoint_blob: Optional[str] = None
 
     @model_validator(mode="after")
     def set_endpoint_blob(self) -> Self:
-        self.endpoint_blob = f"https://{self.name}.{self.endpoint_suffix}"
+        self.endpoint_blob = f"https://{self.name}.blob.core.windows.net"
         return self
 
 class _BaseSettings(BaseSettings):

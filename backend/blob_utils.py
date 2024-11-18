@@ -39,6 +39,8 @@ def format_metadata(blob_metadata, blob_name):
     # Recupera o Titulo e caso não encontre o valor padrão é o do blob_name
     # Remove o Titulo da lista blob_metadata
     blob_titulo = unquote(blob_metadata.get("Titulo", blob_name))
+    blob_codigo = blob_metadata.get("Codigo", "")
+    blob_titulo_aux = f"{blob_codigo} - {blob_titulo}"    
     if "Titulo" in blob_metadata:
         del blob_metadata["Titulo"]
 
@@ -61,4 +63,4 @@ def format_metadata(blob_metadata, blob_name):
         "Situacao": "Situação", 
     }
     blob_metadata_ajustado = {mapeamento_chaves.get(k, k): v for k, v in blob_metadata.items()}
-    return blob_titulo, blob_metadata_ajustado
+    return blob_titulo_aux, blob_metadata_ajustado

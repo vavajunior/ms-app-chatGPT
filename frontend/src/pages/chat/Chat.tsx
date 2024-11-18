@@ -767,20 +767,6 @@ const Chat = () => {
     )
   }
 
-  const formata_titulo_Citation = (citation: Citation): JSX.Element => {
-    const titulo = citation.document_details ?
-      `${citation.filepath?.replace(/_/g, ' ').replace(/\.pdf$/i, '')} - ${citation.document_details.blob_titulo}`
-      : citation.title
-    return (
-      <h5
-        className={styles.citationPanelTitle}
-        tabIndex={0}
-        title={citation.filepath ?? ''}
-        onClick={() => onViewSource(citation)}>
-        {titulo}
-      </h5>)
-  }
-
   const tooltipId = useId('tooltip');
 
   return (
@@ -939,9 +925,15 @@ const Chat = () => {
                   onClick={() => setIsCitationPanelOpen(false)}
                 />
               </Stack>
-              {
-                formata_titulo_Citation(activeCitation)
-              }
+              <h5
+                className={styles.citationPanelTitle}
+                tabIndex={0}
+                title={activeCitation.filepath ?? ''}
+                onClick={() => onViewSource(activeCitation)}>
+                {activeCitation.document_details ?
+                  activeCitation.document_details.blob_titulo
+                  : activeCitation.title}
+              </h5>
               {activeCitation.document_details &&
                 <div tabIndex={0}>
                   <DefaultButton

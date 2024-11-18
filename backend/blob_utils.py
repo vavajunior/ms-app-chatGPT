@@ -1,23 +1,29 @@
 import logging
 from azure.storage.blob import BlobServiceClient, BlobSasPermissions, generate_blob_sas
+from azure.core.exceptions import ResourceNotFoundError
 from datetime import datetime, timezone, timedelta
 from urllib.parse import unquote
 
 def get_blob_details (blob_name, container_name, account_url, account_key):
-    blob_service_client = BlobServiceClient(  
-        account_url=account_url,
-        credential=account_key
-    )
+    try:
+        blob_service_client = BlobServiceClient(  
+            account_url=account_url,
+            credential=account_key
+        )
 
-    blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
-    blob_properties = blob_client.get_blob_properties()
-    blob_metadata = blob_properties.metadata
+        blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
+        blob_properties = blob_client.get_blob_properties()
+        blob_metadata = blob_properties.metadata
 
-    sas_token = generate_sas_url(blob_client)
-    blob_url = f"{blob_client.url}?{sas_token}"
+        sas_token = generate_sas_url(blob_client)
+        blob_url = f"{blob_client.url}?{sas_token}"
 
-    blob_titulo, blob_metadata_ajustado = format_metadata(blob_metadata, blob_name)    
-    return blob_url, blob_titulo, blob_metadata_ajustado
+        blob_titulo, blob_metadata_ajustado = format_metadata(blob_metadata, blob_name)    
+        return blob_url, blob_titulo, blob_metadata_ajustado
+    
+    except ResourceNotFoundError:
+        logging.exception(f"O blob '{blob_name}' não foi encontrado no container '{container_name}'.")
+        return None, None, None
 
 # Create a SAS token that's valid for one hour
 def generate_sas_url(blob_client): 

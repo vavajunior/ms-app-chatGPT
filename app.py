@@ -880,6 +880,9 @@ async def get_document_details():
                             account_url=app_settings.storage_account.endpoint_blob, 
                             account_key=app_settings.storage_account.key)
     
+    if blob_url is None:
+        return jsonify({"error": "File not found."}), 500
+    
     return jsonify({"file_path": file_path, "blob_titulo": blob_titulo, "blob_url": blob_url, "blob_metadata": blob_metadata}), 200
 
 

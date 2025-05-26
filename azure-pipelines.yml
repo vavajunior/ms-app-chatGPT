@@ -18,7 +18,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Enable dynamic install of extensions'
       inputs:
-        azureSubscription: "$(ARM_SERVICE_CONNECTION)"
+        azureSubscription: "ServiceConnection_BigData-NORMATIZAI"
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
@@ -35,7 +35,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Create Web App'
       inputs:
-        azureSubscription: "$(ARM_SERVICE_CONNECTION)"
+        azureSubscription: "ServiceConnection_BigData-NORMATIZAI"
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
@@ -56,7 +56,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Configure App Settings'
       inputs:
-        azureSubscription: "$(ARM_SERVICE_CONNECTION)"
+        azureSubscription: "ServiceConnection_BigData-NORMATIZAI"
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
@@ -75,7 +75,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Configure Startup File'
       inputs:
-        azureSubscription: "$(ARM_SERVICE_CONNECTION)"
+        azureSubscription: "ServiceConnection_BigData-NORMATIZAI"
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
@@ -94,7 +94,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Set Auth Microsoft Identity'
       inputs:
-        azureSubscription: "$(ARM_SERVICE_CONNECTION)"
+        azureSubscription: "ServiceConnection_BigData-NORMATIZAI"
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
@@ -116,7 +116,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Deploy .zip App Package'
       inputs:
-        azureSubscription: "$(ARM_SERVICE_CONNECTION)"
+        azureSubscription: "ServiceConnection_BigData-NORMATIZAI"
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |

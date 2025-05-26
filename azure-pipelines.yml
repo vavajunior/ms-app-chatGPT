@@ -9,7 +9,11 @@ stages:
 - stage: DeployWebApp
   displayName: 'Azure Web App Deployment'
   jobs:
-
+  - job: check_variables
+    displayName: Check Variables
+    steps:
+      - script: |
+          echo "Variables defined: Resource Group: $(RESOURCE_GROUP), APP Name: $(APP_NAME)
   - job: ConfigureCLI
     displayName: 'Configure Azure CLI with Preview Extensions'
     pool:

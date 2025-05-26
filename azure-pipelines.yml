@@ -122,6 +122,7 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
+          ls -la
           az webapp config appsettings set \
             --resource-group $(RESOURCE_GROUP) \
             --name $(APP_NAME) \

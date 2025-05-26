@@ -60,7 +60,7 @@ stages:
     steps:
       - script: |
           echo "Generating app_settings.json..."
-          cat <<EOF > $(json_file)
+          cat <<EOF > $(Build.SourcesDirectory)/$(json_file)
           {
             "AUTH_CLIENT_SECRET":"$(AUTH_CLIENT_SECRET)",
             "AZURE_COSMOSDB_ACCOUNT":"$(AZURE_COSMOSDB_ACCOUNT)",
@@ -126,7 +126,7 @@ stages:
           az webapp config appsettings set \
             --resource-group $(RESOURCE_GROUP) \
             --name $(APP_NAME) \
-            --settings @$(json_file) \
+            --settings @$(Build.SourcesDirectory)/$(json_file) \
             --debug
 
   - job: SetStartupCommand

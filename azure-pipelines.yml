@@ -25,7 +25,7 @@ stages:
           az config set extension.use_dynamic_install=yes_without_prompt
           az config set extension.dynamic_install_allow_preview=true
           az extension add --name authV2 --yes
-
+          az version
   - job: CreateWebApp
     displayName: 'Create Azure Web App'
     dependsOn: ConfigureCLI

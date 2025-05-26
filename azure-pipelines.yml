@@ -107,7 +107,7 @@ stages:
             "WEBSITE_HTTPLOGGING_RETENTION_DAYS":"$(WEBSITE_HTTPLOGGING_RETENTION_DAYS)"
           }
           EOF
-          cat $(json_file)
+          ls -ls
 
   - job: SetAppSettings
     displayName: 'Set App Settings'

@@ -1,0 +1,127 @@
+trigger:
+- main  # or your desired branch
+
+variables:
+  - group: normatizai-prod
+      # Secure pipeline variable
+
+stages:
+- stage: DeployWebApp
+  displayName: 'Azure Web App Deployment'
+  jobs:
+
+  - job: ConfigureCLI
+    displayName: 'Configure Azure CLI with Preview Extensions'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Enable dynamic install of extensions'
+      inputs:
+        azureSubscription: 'SC-Normatizai-Dev'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az config set extension.use_dynamic_install=yes_without_prompt
+          az config set extension.dynamic_install_allow_preview=true
+          az extension add --name authV2 --yes
+
+  - job: CreateWebApp
+    displayName: 'Create Azure Web App'
+    dependsOn: ConfigureCLI
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Create Web App'
+      inputs:
+        azureSubscription: 'SC-Normatizai-Dev'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az webapp create \
+            --resource-group $(RESOURCE_GROUP) \
+            --name $(APP_NAME) \
+            --plan $(APP_SERVICE_PLAN) \
+            --runtime "PYTHON|3.11" \
+            --https-only true \
+            --debug
+
+  - job: SetAppSettings
+    displayName: 'Set App Settings'
+    dependsOn: CreateWebApp
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Configure App Settings'
+      inputs:
+        azureSubscription: 'SC-Normatizai-Dev'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az webapp config appsettings set \
+            --resource-group $(RESOURCE_GROUP) \
+            --name $(APP_NAME) \
+            --settings @app_settings.json \
+            --debug
+
+  - job: SetStartupCommand
+    displayName: 'Set Startup Command'
+    dependsOn: SetAppSettings
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Configure Startup File'
+      inputs:
+        azureSubscription: 'SC-Normatizai-Dev'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az webapp config set \
+            --resource-group $(RESOURCE_GROUP) \
+            --name $(APP_NAME) \
+            --startup-file "gunicorn -k uvicorn.workers.UvicornWorker app:app --bind=0.0.0.0:8000" \
+            --debug
+
+  - job: ConfigureAuthentication
+    displayName: 'Configure Microsoft Auth'
+    dependsOn: SetStartupCommand
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Set Auth Microsoft Identity'
+      inputs:
+        azureSubscription: 'SC-Normatizai-Dev'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az webapp auth microsoft update \
+            --resource-group $(RESOURCE_GROUP) \
+            --name $(APP_NAME) \
+            --enabled true \
+            --client-id $(CLIENT_ID) \
+            --client-secret $(CLIENT_SECRET) \
+            --issuer https://sts.windows.net/$(TENANT_ID)/ \
+            --debug
+
+  - job: DeployAppCode
+    displayName: 'Deploy Application Code'
+    dependsOn: ConfigureAuthentication
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Deploy .zip App Package'
+      inputs:
+        azureSubscription: 'SC-Normatizai-Dev'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az webapp deploy \
+            --resource-group $(RESOURCE_GROUP) \
+            --name $(APP_NAME) \
+            --src-path normatizai.zip \
+            --debug

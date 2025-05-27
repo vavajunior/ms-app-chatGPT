@@ -49,257 +49,195 @@ stages:
             --https-only true \
             --debug
 
-  - job: create_env
-    displayName: Create App Variables Enviroment
-    dependsOn: CreateWebApp
-    steps:
-      - script: |
-          echo "Generating app_settings.json..."
-          cat <<EOF > $(Build.SourcesDirectory)/$(json_file)
-          [
-            {
-                "name": "AUTH_CLIENT_SECRET",
-                "value": "${AUTH_CLIENT_SECRET}"
-            },
-            {
-                "name": "AZURE_COSMOSDB_ACCOUNT",
-                "value": "${AZURE_COSMOSDB_ACCOUNT}"
-            },
-            {
-                "name": "AZURE_COSMOSDB_ACCOUNT_KEY",
-                "value": "${AZURE_COSMOSDB_ACCOUNT_KEY}"
-            },
-            {
-                "name": "AZURE_COSMOSDB_CONVERSATIONS_CONTAINER",
-                "value": "${AZURE_COSMOSDB_CONVERSATIONS_CONTAINER}"
-            },
-            {
-                "name": "AZURE_COSMOSDB_DATABASE",
-                "value": "${AZURE_COSMOSDB_DATABASE}"
-            },
-            {
-                "name": "AZURE_COSMOSDB_ENABLE_FEEDBACK",
-                "value": "${AZURE_COSMOSDB_ENABLE_FEEDBACK}"
-            },
-            {
-                "name": "AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN",
-                "value": "${AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN}"
-            },
-            {
-                "name": "AZURE_OPENAI_EMBEDDING_NAME",
-                "value": "${AZURE_OPENAI_EMBEDDING_NAME}"
-            },
-            {
-                "name": "AZURE_OPENAI_ENDPOINT",
-                "value": "${AZURE_OPENAI_ENDPOINT}"
-            },
-            {
-                "name": "AZURE_OPENAI_KEY",
-                "value": "${AZURE_OPENAI_KEY}"
-            },
-            {
-                "name": "AZURE_OPENAI_MAX_TOKENS",
-                "value": "${AZURE_OPENAI_MAX_TOKENS}"
-            },
-            {
-                "name": "AZURE_OPENAI_MODEL",
-                "value": "${AZURE_OPENAI_MODEL}"
-            },
-            {
-                "name": "AZURE_OPENAI_MODEL_NAME",
-                "value": "${AZURE_OPENAI_MODEL_NAME}"
-            },
-            {
-                "name": "AZURE_OPENAI_RESOURCE",
-                "value": "${AZURE_OPENAI_RESOURCE}"
-            },
-            {
-                "name": "AZURE_OPENAI_SYSTEM_MESSAGE",
-                "value": "${AZURE_OPENAI_SYSTEM_MESSAGE}"
-            },
-            {
-                "name": "AZURE_OPENAI_TEMPERATURE",
-                "value": "${AZURE_OPENAI_TEMPERATURE}"
-            },
-            {
-                "name": "AZURE_OPENAI_TOP_P",
-                "value": "${AZURE_OPENAI_TOP_P}"
-            },
-            {
-                "name": "AZURE_SEARCH_ENABLE_IN_DOMAIN",
-                "value": "${AZURE_SEARCH_ENABLE_IN_DOMAIN}"
-            },
-            {
-                "name": "AZURE_SEARCH_FILENAME_COLUMN",
-                "value": "${AZURE_SEARCH_FILENAME_COLUMN}"
-            },
-            {
-                "name": "AZURE_SEARCH_INDEX",
-                "value": "${AZURE_SEARCH_INDEX}"
-            },
-            {
-                "name": "AZURE_SEARCH_KEY",
-                "value": "${AZURE_SEARCH_KEY}"
-            },
-            {
-                "name": "AZURE_SEARCH_QUERY_TYPE",
-                "value": "${AZURE_SEARCH_QUERY_TYPE}"
-            },
-            {
-                "name": "AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG",
-                "value": "${AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG}"
-            },
-            {
-                "name": "AZURE_SEARCH_SERVICE",
-                "value": "${AZURE_SEARCH_SERVICE}"
-            },
-            {
-                "name": "AZURE_SEARCH_STRICTNESS",
-                "value": "${AZURE_SEARCH_STRICTNESS}"
-            },
-            {
-                "name": "AZURE_SEARCH_TOP_K",
-                "value": "${AZURE_SEARCH_TOP_K}"
-            },
-            {
-                "name": "AZURE_SEARCH_USE_SEMANTIC_SEARCH",
-                "value": "${AZURE_SEARCH_USE_SEMANTIC_SEARCH}"
-            },
-            {
-                "name": "AZURE_SEARCH_VECTOR_COLUMNS",
-                "value": "${AZURE_SEARCH_VECTOR_COLUMNS}"
-            },
-            {
-                "name": "AZURE_STORAGE_ACCOUNT_CONTAINER",
-                "value": "${AZURE_STORAGE_ACCOUNT_CONTAINER}"
-            },
-            {
-                "name": "AZURE_STORAGE_ACCOUNT_KEY",
-                "value": "${AZURE_STORAGE_ACCOUNT_KEY}"
-            },
-            {
-                "name": "AZURE_STORAGE_ACCOUNT_NAME",
-                "value": "${AZURE_STORAGE_ACCOUNT_NAME}"
-            },
-            {
-                "name": "DATASOURCE_TYPE",
-                "value": "${DATASOURCE_TYPE}"
-            },
-            {
-                "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
-                "value": "${SCM_DO_BUILD_DURING_DEPLOYMENT}"
-            },
-            {
-                "name": "UI_CHAT_DESCRIPTION",
-                "value": "${UI_CHAT_DESCRIPTION}"
-            },
-            {
-                "name": "UI_CHAT_LOGO",
-                "value": "${UI_CHAT_LOGO}"
-            },
-            {
-                "name": "UI_CHAT_LOGO_FOOTER",
-                "value": "${UI_CHAT_LOGO_FOOTER}"
-            },
-            {
-                "name": "UI_CHAT_TITLE",
-                "value": "${UI_CHAT_TITLE}"
-            },
-            {
-                "name": "UI_FAVICON",
-                "value": "${UI_FAVICON}"
-            },
-            {
-                "name": "UI_LOGO",
-                "value": "${UI_LOGO}"
-            },
-            {
-                "name": "UI_SHOW_SHARE_BUTTON",
-                "value": "${UI_SHOW_SHARE_BUTTON}"
-            },
-            {
-                "name": "UI_TITLE",
-                "value": "${UI_TITLE}"
-            },
-            {
-                "name": "UI_TITLE_FOOTER",
-                "value": "${UI_TITLE_FOOTER}"
-            },
-            {
-                "name": "WEBSITE_HTTPLOGGING_RETENTION_DAYS",
-                "value": "${WEBSITE_HTTPLOGGING_RETENTION_DAYS}"
-            }
-          ]
-          EOF
-          ls -ls
-        env:
-          AUTH_CLIENT_SECRET: $(AUTH_CLIENT_SECRET)
-          AZURE_COSMOSDB_ACCOUNT: $(AZURE_COSMOSDB_ACCOUNT)
-          AZURE_COSMOSDB_ACCOUNT_KEY: $(AZURE_COSMOSDB_ACCOUNT_KEY)
-          AZURE_COSMOSDB_CONVERSATIONS_CONTAINER: $(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER)
-          AZURE_COSMOSDB_DATABASE: $(AZURE_COSMOSDB_DATABASE)
-          AZURE_COSMOSDB_ENABLE_FEEDBACK: $(AZURE_COSMOSDB_ENABLE_FEEDBACK)
-          AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN: $(AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN)
-          AZURE_OPENAI_EMBEDDING_NAME: $(AZURE_OPENAI_EMBEDDING_NAME)
-          AZURE_OPENAI_ENDPOINT: $(AZURE_OPENAI_ENDPOINT)
-          AZURE_OPENAI_KEY: $(AZURE_OPENAI_KEY)
-          AZURE_OPENAI_MAX_TOKENS: $(AZURE_OPENAI_MAX_TOKENS)
-          AZURE_OPENAI_MODEL: $(AZURE_OPENAI_MODEL)
-          AZURE_OPENAI_MODEL_NAME: $(AZURE_OPENAI_MODEL_NAME)
-          AZURE_OPENAI_RESOURCE: $(AZURE_OPENAI_RESOURCE)
-          AZURE_OPENAI_SYSTEM_MESSAGE: $(AZURE_OPENAI_SYSTEM_MESSAGE)
-          AZURE_OPENAI_TEMPERATURE: $(AZURE_OPENAI_TEMPERATURE)
-          AZURE_OPENAI_TOP_P: $(AZURE_OPENAI_TOP_P)
-          AZURE_SEARCH_ENABLE_IN_DOMAIN: $(AZURE_SEARCH_ENABLE_IN_DOMAIN)
-          AZURE_SEARCH_FILENAME_COLUMN: $(AZURE_SEARCH_FILENAME_COLUMN)
-          AZURE_SEARCH_INDEX: $(AZURE_SEARCH_INDEX)
-          AZURE_SEARCH_KEY: $(AZURE_SEARCH_KEY)
-          AZURE_SEARCH_QUERY_TYPE: $(AZURE_SEARCH_QUERY_TYPE)
-          AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG: $(AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG)
-          AZURE_SEARCH_SERVICE: $(AZURE_SEARCH_SERVICE)
-          AZURE_SEARCH_STRICTNESS: $(AZURE_SEARCH_STRICTNESS)
-          AZURE_SEARCH_TOP_K: $(AZURE_SEARCH_TOP_K)
-          AZURE_SEARCH_USE_SEMANTIC_SEARCH: $(AZURE_SEARCH_USE_SEMANTIC_SEARCH)
-          AZURE_SEARCH_VECTOR_COLUMNS: $(AZURE_SEARCH_VECTOR_COLUMNS)
-          AZURE_STORAGE_ACCOUNT_CONTAINER: $(AZURE_STORAGE_ACCOUNT_CONTAINER)
-          AZURE_STORAGE_ACCOUNT_KEY: $(AZURE_STORAGE_ACCOUNT_KEY)
-          AZURE_STORAGE_ACCOUNT_NAME: $(AZURE_STORAGE_ACCOUNT_NAME)
-          DATASOURCE_TYPE: $(DATASOURCE_TYPE)
-          SCM_DO_BUILD_DURING_DEPLOYMENT: $(SCM_DO_BUILD_DURING_DEPLOYMENT)
-          UI_CHAT_DESCRIPTION: $(UI_CHAT_DESCRIPTION)
-          UI_CHAT_LOGO: $(UI_CHAT_LOGO)
-          UI_CHAT_LOGO_FOOTER: $(UI_CHAT_LOGO_FOOTER)
-          UI_CHAT_TITLE: $(UI_CHAT_TITLE)
-          UI_FAVICON: $(UI_FAVICON)
-          UI_LOGO: $(UI_LOGO)
-          UI_SHOW_SHARE_BUTTON: $(UI_SHOW_SHARE_BUTTON)
-          UI_TITLE: $(UI_TITLE)
-          UI_TITLE_FOOTER: $(UI_TITLE_FOOTER)
-          WEBSITE_HTTPLOGGING_RETENTION_DAYS: $(WEBSITE_HTTPLOGGING_RETENTION_DAYS)
-
-  - job: SetAppSettings
-    displayName: 'Set App Settings'
-    dependsOn: create_env
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - task: AzureCLI@2
-      displayName: 'Configure App Settings'
-      inputs:
-        azureSubscription: "ServiceConnection_BigData-NORMATIZAI"
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          ls -la
-          az webapp config appsettings set \
-            --resource-group $(RESOURCE_GROUP) \
-            --name $(APP_NAME) \
-            --settings @$(Build.SourcesDirectory)/$(json_file) \
-            --debug
+  # - job: SetAppSettings
+  #   displayName: 'Set App Settings'
+  #   dependsOn: CreateWebApp
+  #   pool:
+  #     vmImage: 'ubuntu-latest'
+  #   steps:
+  #   - task: AzureAppServiceSettings@1
+  #     inputs:
+  #       azureSubscription: 'ServiceConnection_BigData-NORMATIZAI'
+  #       appName: '<app-name>'
+  #       appSettings: |
+  #         [
+  #           {
+  #               "name": "AUTH_CLIENT_SECRET",
+  #               "value": "$(AUTH_CLIENT_SECRET)"
+  #           },
+  #           {
+  #               "name": "AZURE_COSMOSDB_ACCOUNT",
+  #               "value": "$(AZURE_COSMOSDB_ACCOUNT)"
+  #           },
+  #           {
+  #               "name": "AZURE_COSMOSDB_ACCOUNT_KEY",
+  #               "value": "$(AZURE_COSMOSDB_ACCOUNT_KEY)"
+  #           },
+  #           {
+  #               "name": "AZURE_COSMOSDB_CONVERSATIONS_CONTAINER",
+  #               "value": "$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER)"
+  #           },
+  #           {
+  #               "name": "AZURE_COSMOSDB_DATABASE",
+  #               "value": "$(AZURE_COSMOSDB_DATABASE)"
+  #           },
+  #           {
+  #               "name": "AZURE_COSMOSDB_ENABLE_FEEDBACK",
+  #               "value": "$(AZURE_COSMOSDB_ENABLE_FEEDBACK)"
+  #           },
+  #           {
+  #               "name": "AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN",
+  #               "value": "$(AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN)"
+  #           },
+  #           {
+  #               "name": "AZURE_OPENAI_EMBEDDING_NAME",
+  #               "value": "$(AZURE_OPENAI_EMBEDDING_NAME)"
+  #           },
+  #           {
+  #               "name": "AZURE_OPENAI_ENDPOINT",
+  #               "value": "$(AZURE_OPENAI_ENDPOINT)"
+  #           },
+  #           {
+  #               "name": "AZURE_OPENAI_KEY",
+  #               "value": "$(AZURE_OPENAI_KEY)"
+  #           },
+  #           {
+  #               "name": "AZURE_OPENAI_MAX_TOKENS",
+  #               "value": "$(AZURE_OPENAI_MAX_TOKENS)"
+  #           },
+  #           {
+  #               "name": "AZURE_OPENAI_MODEL",
+  #               "value": "$(AZURE_OPENAI_MODEL)"
+  #           },
+  #           {
+  #               "name": "AZURE_OPENAI_MODEL_NAME",
+  #               "value": "$(AZURE_OPENAI_MODEL_NAME)"
+  #           },
+  #           {
+  #               "name": "AZURE_OPENAI_RESOURCE",
+  #               "value": "$(AZURE_OPENAI_RESOURCE)"
+  #           },
+  #           {
+  #               "name": "AZURE_OPENAI_SYSTEM_MESSAGE",
+  #               "value": "$(AZURE_OPENAI_SYSTEM_MESSAGE)"
+  #           },
+  #           {
+  #               "name": "AZURE_OPENAI_TEMPERATURE",
+  #               "value": "$(AZURE_OPENAI_TEMPERATURE)"
+  #           },
+  #           {
+  #               "name": "AZURE_OPENAI_TOP_P",
+  #               "value": "$(AZURE_OPENAI_TOP_P)"
+  #           },
+  #           {
+  #               "name": "AZURE_SEARCH_ENABLE_IN_DOMAIN",
+  #               "value": "$(AZURE_SEARCH_ENABLE_IN_DOMAIN)"
+  #           },
+  #           {
+  #               "name": "AZURE_SEARCH_FILENAME_COLUMN",
+  #               "value": "$(AZURE_SEARCH_FILENAME_COLUMN)"
+  #           },
+  #           {
+  #               "name": "AZURE_SEARCH_INDEX",
+  #               "value": "$(AZURE_SEARCH_INDEX)"
+  #           },
+  #           {
+  #               "name": "AZURE_SEARCH_KEY",
+  #               "value": "$(AZURE_SEARCH_KEY)"
+  #           },
+  #           {
+  #               "name": "AZURE_SEARCH_QUERY_TYPE",
+  #               "value": "$(AZURE_SEARCH_QUERY_TYPE)"
+  #           },
+  #           {
+  #               "name": "AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG",
+  #               "value": "$(AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG)"
+  #           },
+  #           {
+  #               "name": "AZURE_SEARCH_SERVICE",
+  #               "value": "$(AZURE_SEARCH_SERVICE)"
+  #           },
+  #           {
+  #               "name": "AZURE_SEARCH_STRICTNESS",
+  #               "value": "$(AZURE_SEARCH_STRICTNESS)"
+  #           },
+  #           {
+  #               "name": "AZURE_SEARCH_TOP_K",
+  #               "value": "$(AZURE_SEARCH_TOP_K)"
+  #           },
+  #           {
+  #               "name": "AZURE_SEARCH_USE_SEMANTIC_SEARCH",
+  #               "value": "$(AZURE_SEARCH_USE_SEMANTIC_SEARCH)"
+  #           },
+  #           {
+  #               "name": "AZURE_SEARCH_VECTOR_COLUMNS",
+  #               "value": "$(AZURE_SEARCH_VECTOR_COLUMNS)"
+  #           },
+  #           {
+  #               "name": "AZURE_STORAGE_ACCOUNT_CONTAINER",
+  #               "value": "$(AZURE_STORAGE_ACCOUNT_CONTAINER)"
+  #           },
+  #           {
+  #               "name": "AZURE_STORAGE_ACCOUNT_KEY",
+  #               "value": "$(AZURE_STORAGE_ACCOUNT_KEY)"
+  #           },
+  #           {
+  #               "name": "AZURE_STORAGE_ACCOUNT_NAME",
+  #               "value": "$(AZURE_STORAGE_ACCOUNT_NAME)"
+  #           },
+  #           {
+  #               "name": "DATASOURCE_TYPE",
+  #               "value": "$(DATASOURCE_TYPE)"
+  #           },
+  #           {
+  #               "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+  #               "value": "$(SCM_DO_BUILD_DURING_DEPLOYMENT)"
+  #           },
+  #           {
+  #               "name": "UI_CHAT_DESCRIPTION",
+  #               "value": "$(UI_CHAT_DESCRIPTION)"
+  #           },
+  #           {
+  #               "name": "UI_CHAT_LOGO",
+  #               "value": "$(UI_CHAT_LOGO)"
+  #           },
+  #           {
+  #               "name": "UI_CHAT_LOGO_FOOTER",
+  #               "value": "$(UI_CHAT_LOGO_FOOTER)"
+  #           },
+  #           {
+  #               "name": "UI_CHAT_TITLE",
+  #               "value": "$(UI_CHAT_TITLE)"
+  #           },
+  #           {
+  #               "name": "UI_FAVICON",
+  #               "value": "$(UI_FAVICON)"
+  #           },
+  #           {
+  #               "name": "UI_LOGO",
+  #               "value": "$(UI_LOGO)"
+  #           },
+  #           {
+  #               "name": "UI_SHOW_SHARE_BUTTON",
+  #               "value": "$(UI_SHOW_SHARE_BUTTON)"
+  #           },
+  #           {
+  #               "name": "UI_TITLE",
+  #               "value": "$(UI_TITLE)"
+  #           },
+  #           {
+  #               "name": "UI_TITLE_FOOTER",
+  #               "value": "$(UI_TITLE_FOOTER)"
+  #           },
+  #           {
+  #               "name": "WEBSITE_HTTPLOGGING_RETENTION_DAYS",
+  #               "value": "$(WEBSITE_HTTPLOGGING_RETENTION_DAYS)"
+  #           }
+  #         ]
 
   - job: SetStartupCommand
     displayName: 'Set Startup Command'
-    dependsOn: SetAppSettings
+    dependsOn: CreateWebApp
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -313,33 +251,33 @@ stages:
           az webapp config set \
             --resource-group $(RESOURCE_GROUP) \
             --name $(APP_NAME) \
-            --startup-file "gunicorn -k uvicorn.workers.UvicornWorker app:app --bind=0.0.0.0:8000" \
+            --startup-file "gunicorn --bind=0.0.0.0:8000 --timeout 600 app:app" \
             --debug
 
-  - job: ConfigureAuthentication
-    displayName: 'Configure Microsoft Auth'
-    dependsOn: SetStartupCommand
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - task: AzureCLI@2
-      displayName: 'Set Auth Microsoft Identity'
-      inputs:
-        azureSubscription: "ServiceConnection_BigData-NORMATIZAI"
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          az webapp auth microsoft update \
-            --resource-group $(RESOURCE_GROUP) \
-            --name $(APP_NAME) \
-            --client-id $(CLIENT_ID) \
-            --client-secret $(CLIENT_SECRET) \
-            --issuer https://sts.windows.net/$(TENANT_ID)/ \
-            --debug
+  # - job: ConfigureAuthentication
+  #   displayName: 'Configure Microsoft Auth'
+  #   dependsOn: SetStartupCommand
+  #   pool:
+  #     vmImage: 'ubuntu-latest'
+  #   steps:
+  #   - task: AzureCLI@2
+  #     displayName: 'Set Auth Microsoft Identity'
+  #     inputs:
+  #       azureSubscription: "ServiceConnection_BigData-NORMATIZAI"
+  #       scriptType: 'bash'
+  #       scriptLocation: 'inlineScript'
+  #       inlineScript: |
+  #         az webapp auth microsoft update \
+  #           --resource-group $(RESOURCE_GROUP) \
+  #           --name $(APP_NAME) \
+  #           --client-id $(CLIENT_ID) \
+  #           --client-secret $(CLIENT_SECRET) \
+  #           --issuer https://sts.windows.net/$(TENANT_ID)/ \
+  #           --debug
 
   - job: ZipAppCode
     displayName: 'Zip Application Code'
-    dependsOn: ConfigureAuthentication
+    dependsOn: SetStartupCommand
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -361,18 +299,184 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-      - download: current
-        artifact: zippedApp
-
-      - task: AzureCLI@2
-        displayName: 'Deploy .zip App Package'
-        inputs:
-          azureSubscription: "ServiceConnection_BigData-NORMATIZAI"
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
-          inlineScript: |
-            az webapp deploy \
-              --resource-group $(RESOURCE_GROUP) \
-              --name $(APP_NAME) \
-              --src-path $(Pipeline.Workspace)/zippedApp/normatizai.zip \
-              --debug
+    - task: AzureWebApp@1
+      inputs:
+        azureSubscription: 'ServiceConnection_BigData-NORMATIZAI'
+        appType: 'webAppLinux'
+        appName: '$(APP_NAME)'
+        package: '$(Build.ArtifactStagingDirectory)/normatizai.zip'
+        appSettings: |
+          [
+            {
+                "name": "AUTH_CLIENT_SECRET",
+                "value": "$(AUTH_CLIENT_SECRET)"
+            },
+            {
+                "name": "AZURE_COSMOSDB_ACCOUNT",
+                "value": "$(AZURE_COSMOSDB_ACCOUNT)"
+            },
+            {
+                "name": "AZURE_COSMOSDB_ACCOUNT_KEY",
+                "value": "$(AZURE_COSMOSDB_ACCOUNT_KEY)"
+            },
+            {
+                "name": "AZURE_COSMOSDB_CONVERSATIONS_CONTAINER",
+                "value": "$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER)"
+            },
+            {
+                "name": "AZURE_COSMOSDB_DATABASE",
+                "value": "$(AZURE_COSMOSDB_DATABASE)"
+            },
+            {
+                "name": "AZURE_COSMOSDB_ENABLE_FEEDBACK",
+                "value": "$(AZURE_COSMOSDB_ENABLE_FEEDBACK)"
+            },
+            {
+                "name": "AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN",
+                "value": "$(AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN)"
+            },
+            {
+                "name": "AZURE_OPENAI_EMBEDDING_NAME",
+                "value": "$(AZURE_OPENAI_EMBEDDING_NAME)"
+            },
+            {
+                "name": "AZURE_OPENAI_ENDPOINT",
+                "value": "$(AZURE_OPENAI_ENDPOINT)"
+            },
+            {
+                "name": "AZURE_OPENAI_KEY",
+                "value": "$(AZURE_OPENAI_KEY)"
+            },
+            {
+                "name": "AZURE_OPENAI_MAX_TOKENS",
+                "value": "$(AZURE_OPENAI_MAX_TOKENS)"
+            },
+            {
+                "name": "AZURE_OPENAI_MODEL",
+                "value": "$(AZURE_OPENAI_MODEL)"
+            },
+            {
+                "name": "AZURE_OPENAI_MODEL_NAME",
+                "value": "$(AZURE_OPENAI_MODEL_NAME)"
+            },
+            {
+                "name": "AZURE_OPENAI_RESOURCE",
+                "value": "$(AZURE_OPENAI_RESOURCE)"
+            },
+            {
+                "name": "AZURE_OPENAI_SYSTEM_MESSAGE",
+                "value": "$(AZURE_OPENAI_SYSTEM_MESSAGE)"
+            },
+            {
+                "name": "AZURE_OPENAI_TEMPERATURE",
+                "value": "$(AZURE_OPENAI_TEMPERATURE)"
+            },
+            {
+                "name": "AZURE_OPENAI_TOP_P",
+                "value": "$(AZURE_OPENAI_TOP_P)"
+            },
+            {
+                "name": "AZURE_SEARCH_ENABLE_IN_DOMAIN",
+                "value": "$(AZURE_SEARCH_ENABLE_IN_DOMAIN)"
+            },
+            {
+                "name": "AZURE_SEARCH_FILENAME_COLUMN",
+                "value": "$(AZURE_SEARCH_FILENAME_COLUMN)"
+            },
+            {
+                "name": "AZURE_SEARCH_INDEX",
+                "value": "$(AZURE_SEARCH_INDEX)"
+            },
+            {
+                "name": "AZURE_SEARCH_KEY",
+                "value": "$(AZURE_SEARCH_KEY)"
+            },
+            {
+                "name": "AZURE_SEARCH_QUERY_TYPE",
+                "value": "$(AZURE_SEARCH_QUERY_TYPE)"
+            },
+            {
+                "name": "AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG",
+                "value": "$(AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG)"
+            },
+            {
+                "name": "AZURE_SEARCH_SERVICE",
+                "value": "$(AZURE_SEARCH_SERVICE)"
+            },
+            {
+                "name": "AZURE_SEARCH_STRICTNESS",
+                "value": "$(AZURE_SEARCH_STRICTNESS)"
+            },
+            {
+                "name": "AZURE_SEARCH_TOP_K",
+                "value": "$(AZURE_SEARCH_TOP_K)"
+            },
+            {
+                "name": "AZURE_SEARCH_USE_SEMANTIC_SEARCH",
+                "value": "$(AZURE_SEARCH_USE_SEMANTIC_SEARCH)"
+            },
+            {
+                "name": "AZURE_SEARCH_VECTOR_COLUMNS",
+                "value": "$(AZURE_SEARCH_VECTOR_COLUMNS)"
+            },
+            {
+                "name": "AZURE_STORAGE_ACCOUNT_CONTAINER",
+                "value": "$(AZURE_STORAGE_ACCOUNT_CONTAINER)"
+            },
+            {
+                "name": "AZURE_STORAGE_ACCOUNT_KEY",
+                "value": "$(AZURE_STORAGE_ACCOUNT_KEY)"
+            },
+            {
+                "name": "AZURE_STORAGE_ACCOUNT_NAME",
+                "value": "$(AZURE_STORAGE_ACCOUNT_NAME)"
+            },
+            {
+                "name": "DATASOURCE_TYPE",
+                "value": "$(DATASOURCE_TYPE)"
+            },
+            {
+                "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+                "value": "$(SCM_DO_BUILD_DURING_DEPLOYMENT)"
+            },
+            {
+                "name": "UI_CHAT_DESCRIPTION",
+                "value": "$(UI_CHAT_DESCRIPTION)"
+            },
+            {
+                "name": "UI_CHAT_LOGO",
+                "value": "$(UI_CHAT_LOGO)"
+            },
+            {
+                "name": "UI_CHAT_LOGO_FOOTER",
+                "value": "$(UI_CHAT_LOGO_FOOTER)"
+            },
+            {
+                "name": "UI_CHAT_TITLE",
+                "value": "$(UI_CHAT_TITLE)"
+            },
+            {
+                "name": "UI_FAVICON",
+                "value": "$(UI_FAVICON)"
+            },
+            {
+                "name": "UI_LOGO",
+                "value": "$(UI_LOGO)"
+            },
+            {
+                "name": "UI_SHOW_SHARE_BUTTON",
+                "value": "$(UI_SHOW_SHARE_BUTTON)"
+            },
+            {
+                "name": "UI_TITLE",
+                "value": "$(UI_TITLE)"
+            },
+            {
+                "name": "UI_TITLE_FOOTER",
+                "value": "$(UI_TITLE_FOOTER)"
+            },
+            {
+                "name": "WEBSITE_HTTPLOGGING_RETENTION_DAYS",
+                "value": "$(WEBSITE_HTTPLOGGING_RETENTION_DAYS)"
+            }
+          ]

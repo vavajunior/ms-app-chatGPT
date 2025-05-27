@@ -310,175 +310,175 @@ stages:
         appSettings: |
           [
             {
-                "name": "AUTH_CLIENT_SECRET",
-                "value": "$(AUTH_CLIENT_SECRET)"
+              "name": "AUTH_CLIENT_SECRET",
+              "value": "$(AUTH_CLIENT_SECRET)"
             },
             {
-                "name": "AZURE_COSMOSDB_ACCOUNT",
-                "value": "$(AZURE_COSMOSDB_ACCOUNT)"
+              "name": "AZURE_COSMOSDB_ACCOUNT",
+              "value": "$(AZURE_COSMOSDB_ACCOUNT)"
             },
             {
-                "name": "AZURE_COSMOSDB_ACCOUNT_KEY",
-                "value": "$(AZURE_COSMOSDB_ACCOUNT_KEY)"
+              "name": "AZURE_COSMOSDB_ACCOUNT_KEY",
+              "value": "$(AZURE_COSMOSDB_ACCOUNT_KEY)"
             },
             {
-                "name": "AZURE_COSMOSDB_CONVERSATIONS_CONTAINER",
-                "value": "$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER)"
+              "name": "AZURE_COSMOSDB_CONVERSATIONS_CONTAINER",
+              "value": "$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER)"
             },
             {
-                "name": "AZURE_COSMOSDB_DATABASE",
-                "value": "$(AZURE_COSMOSDB_DATABASE)"
+              "name": "AZURE_COSMOSDB_DATABASE",
+              "value": "$(AZURE_COSMOSDB_DATABASE)"
             },
             {
-                "name": "AZURE_COSMOSDB_ENABLE_FEEDBACK",
-                "value": "$(AZURE_COSMOSDB_ENABLE_FEEDBACK)"
+              "name": "AZURE_COSMOSDB_ENABLE_FEEDBACK",
+              "value": "$(AZURE_COSMOSDB_ENABLE_FEEDBACK)"
             },
             {
-                "name": "AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN",
-                "value": "$(AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN)"
+              "name": "AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN",
+              "value": "$(AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN)"
             },
             {
-                "name": "AZURE_OPENAI_EMBEDDING_NAME",
-                "value": "$(AZURE_OPENAI_EMBEDDING_NAME)"
+              "name": "AZURE_OPENAI_EMBEDDING_NAME",
+              "value": "$(AZURE_OPENAI_EMBEDDING_NAME)"
             },
             {
-                "name": "AZURE_OPENAI_ENDPOINT",
-                "value": "$(AZURE_OPENAI_ENDPOINT)"
+              "name": "AZURE_OPENAI_ENDPOINT",
+              "value": "$(AZURE_OPENAI_ENDPOINT)"
             },
             {
-                "name": "AZURE_OPENAI_KEY",
-                "value": "$(AZURE_OPENAI_KEY)"
+              "name": "AZURE_OPENAI_KEY",
+              "value": "$(AZURE_OPENAI_KEY)"
             },
             {
-                "name": "AZURE_OPENAI_MAX_TOKENS",
-                "value": "$(AZURE_OPENAI_MAX_TOKENS)"
+              "name": "AZURE_OPENAI_MAX_TOKENS",
+              "value": "$(AZURE_OPENAI_MAX_TOKENS)"
             },
             {
-                "name": "AZURE_OPENAI_MODEL",
-                "value": "$(AZURE_OPENAI_MODEL)"
+              "name": "AZURE_OPENAI_MODEL",
+              "value": "$(AZURE_OPENAI_MODEL)"
             },
             {
-                "name": "AZURE_OPENAI_MODEL_NAME",
-                "value": "$(AZURE_OPENAI_MODEL_NAME)"
+              "name": "AZURE_OPENAI_MODEL_NAME",
+              "value": "$(AZURE_OPENAI_MODEL_NAME)"
             },
             {
-                "name": "AZURE_OPENAI_RESOURCE",
-                "value": "$(AZURE_OPENAI_RESOURCE)"
+              "name": "AZURE_OPENAI_RESOURCE",
+              "value": "$(AZURE_OPENAI_RESOURCE)"
             },
             {
-                "name": "AZURE_OPENAI_SYSTEM_MESSAGE",
-                "value": "$(AZURE_OPENAI_SYSTEM_MESSAGE)"
+              "name": "AZURE_OPENAI_SYSTEM_MESSAGE",
+              "value": "$(AZURE_OPENAI_SYSTEM_MESSAGE)"
             },
             {
-                "name": "AZURE_OPENAI_TEMPERATURE",
-                "value": "$(AZURE_OPENAI_TEMPERATURE)"
+              "name": "AZURE_OPENAI_TEMPERATURE",
+              "value": "$(AZURE_OPENAI_TEMPERATURE)"
             },
             {
-                "name": "AZURE_OPENAI_TOP_P",
-                "value": "$(AZURE_OPENAI_TOP_P)"
+              "name": "AZURE_OPENAI_TOP_P",
+              "value": "$(AZURE_OPENAI_TOP_P)"
             },
             {
-                "name": "AZURE_SEARCH_ENABLE_IN_DOMAIN",
-                "value": "$(AZURE_SEARCH_ENABLE_IN_DOMAIN)"
+              "name": "AZURE_SEARCH_ENABLE_IN_DOMAIN",
+              "value": "$(AZURE_SEARCH_ENABLE_IN_DOMAIN)"
             },
             {
-                "name": "AZURE_SEARCH_FILENAME_COLUMN",
-                "value": "$(AZURE_SEARCH_FILENAME_COLUMN)"
+              "name": "AZURE_SEARCH_FILENAME_COLUMN",
+              "value": "$(AZURE_SEARCH_FILENAME_COLUMN)"
             },
             {
-                "name": "AZURE_SEARCH_INDEX",
-                "value": "$(AZURE_SEARCH_INDEX)"
+              "name": "AZURE_SEARCH_INDEX",
+              "value": "$(AZURE_SEARCH_INDEX)"
             },
             {
-                "name": "AZURE_SEARCH_KEY",
-                "value": "$(AZURE_SEARCH_KEY)"
+              "name": "AZURE_SEARCH_KEY",
+              "value": "$(AZURE_SEARCH_KEY)"
             },
             {
-                "name": "AZURE_SEARCH_QUERY_TYPE",
-                "value": "$(AZURE_SEARCH_QUERY_TYPE)"
+              "name": "AZURE_SEARCH_QUERY_TYPE",
+              "value": "$(AZURE_SEARCH_QUERY_TYPE)"
             },
             {
-                "name": "AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG",
-                "value": "$(AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG)"
+              "name": "AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG",
+              "value": "$(AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG)"
             },
             {
-                "name": "AZURE_SEARCH_SERVICE",
-                "value": "$(AZURE_SEARCH_SERVICE)"
+              "name": "AZURE_SEARCH_SERVICE",
+              "value": "$(AZURE_SEARCH_SERVICE)"
             },
             {
-                "name": "AZURE_SEARCH_STRICTNESS",
-                "value": "$(AZURE_SEARCH_STRICTNESS)"
+              "name": "AZURE_SEARCH_STRICTNESS",
+              "value": "$(AZURE_SEARCH_STRICTNESS)"
             },
             {
-                "name": "AZURE_SEARCH_TOP_K",
-                "value": "$(AZURE_SEARCH_TOP_K)"
+              "name": "AZURE_SEARCH_TOP_K",
+              "value": "$(AZURE_SEARCH_TOP_K)"
             },
             {
-                "name": "AZURE_SEARCH_USE_SEMANTIC_SEARCH",
-                "value": "$(AZURE_SEARCH_USE_SEMANTIC_SEARCH)"
+              "name": "AZURE_SEARCH_USE_SEMANTIC_SEARCH",
+              "value": "$(AZURE_SEARCH_USE_SEMANTIC_SEARCH)"
             },
             {
-                "name": "AZURE_SEARCH_VECTOR_COLUMNS",
-                "value": "$(AZURE_SEARCH_VECTOR_COLUMNS)"
+              "name": "AZURE_SEARCH_VECTOR_COLUMNS",
+              "value": "$(AZURE_SEARCH_VECTOR_COLUMNS)"
             },
             {
-                "name": "AZURE_STORAGE_ACCOUNT_CONTAINER",
-                "value": "$(AZURE_STORAGE_ACCOUNT_CONTAINER)"
+              "name": "AZURE_STORAGE_ACCOUNT_CONTAINER",
+              "value": "$(AZURE_STORAGE_ACCOUNT_CONTAINER)"
             },
             {
-                "name": "AZURE_STORAGE_ACCOUNT_KEY",
-                "value": "$(AZURE_STORAGE_ACCOUNT_KEY)"
+              "name": "AZURE_STORAGE_ACCOUNT_KEY",
+              "value": "$(AZURE_STORAGE_ACCOUNT_KEY)"
             },
             {
-                "name": "AZURE_STORAGE_ACCOUNT_NAME",
-                "value": "$(AZURE_STORAGE_ACCOUNT_NAME)"
+              "name": "AZURE_STORAGE_ACCOUNT_NAME",
+              "value": "$(AZURE_STORAGE_ACCOUNT_NAME)"
             },
             {
-                "name": "DATASOURCE_TYPE",
-                "value": "$(DATASOURCE_TYPE)"
+              "name": "DATASOURCE_TYPE",
+              "value": "$(DATASOURCE_TYPE)"
             },
             {
-                "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
-                "value": "$(SCM_DO_BUILD_DURING_DEPLOYMENT)"
+              "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+              "value": "$(SCM_DO_BUILD_DURING_DEPLOYMENT)"
             },
             {
-                "name": "UI_CHAT_DESCRIPTION",
-                "value": "$(UI_CHAT_DESCRIPTION)"
+              "name": "UI_CHAT_DESCRIPTION",
+              "value": "$(UI_CHAT_DESCRIPTION)"
             },
             {
-                "name": "UI_CHAT_LOGO",
-                "value": "$(UI_CHAT_LOGO)"
+              "name": "UI_CHAT_LOGO",
+              "value": "$(UI_CHAT_LOGO)"
             },
             {
-                "name": "UI_CHAT_LOGO_FOOTER",
-                "value": "$(UI_CHAT_LOGO_FOOTER)"
+              "name": "UI_CHAT_LOGO_FOOTER",
+              "value": "$(UI_CHAT_LOGO_FOOTER)"
             },
             {
-                "name": "UI_CHAT_TITLE",
-                "value": "$(UI_CHAT_TITLE)"
+              "name": "UI_CHAT_TITLE",
+              "value": "$(UI_CHAT_TITLE)"
             },
             {
-                "name": "UI_FAVICON",
-                "value": "$(UI_FAVICON)"
+              "name": "UI_FAVICON",
+              "value": "$(UI_FAVICON)"
             },
             {
-                "name": "UI_LOGO",
-                "value": "$(UI_LOGO)"
+              "name": "UI_LOGO",
+              "value": "$(UI_LOGO)"
             },
             {
-                "name": "UI_SHOW_SHARE_BUTTON",
-                "value": "$(UI_SHOW_SHARE_BUTTON)"
+              "name": "UI_SHOW_SHARE_BUTTON",
+              "value": "$(UI_SHOW_SHARE_BUTTON)"
             },
             {
-                "name": "UI_TITLE",
-                "value": "$(UI_TITLE)"
+              "name": "UI_TITLE",
+              "value": "$(UI_TITLE)"
             },
             {
-                "name": "UI_TITLE_FOOTER",
-                "value": "$(UI_TITLE_FOOTER)"
+              "name": "UI_TITLE_FOOTER",
+              "value": "$(UI_TITLE_FOOTER)"
             },
             {
-                "name": "WEBSITE_HTTPLOGGING_RETENTION_DAYS",
-                "value": "$(WEBSITE_HTTPLOGGING_RETENTION_DAYS)"
+              "name": "WEBSITE_HTTPLOGGING_RETENTION_DAYS",
+              "value": "$(WEBSITE_HTTPLOGGING_RETENTION_DAYS)"
             }
           ]

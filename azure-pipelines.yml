@@ -306,7 +306,7 @@ stages:
         azureSubscription: 'ServiceConnection_BigData-NORMATIZAI'
         appType: 'webAppLinux'
         appName: '$(APP_NAME)'
-        package: '$(Build.ArtifactStagingDirectory)/zippedApp/normatizai.zip'
+        package: '$(Pipeline.Workspace)/zippedApp/normatizai.zip'
         appSettings: |
           [
             {

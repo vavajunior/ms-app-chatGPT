@@ -288,7 +288,6 @@ stages:
           az webapp auth microsoft update \
             --resource-group $(RESOURCE_GROUP) \
             --name $(APP_NAME) \
-            --enabled true \
             --client-id $(CLIENT_ID) \
             --client-secret $(CLIENT_SECRET) \
             --issuer https://sts.windows.net/$(TENANT_ID)/ \

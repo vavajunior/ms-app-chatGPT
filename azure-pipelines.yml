@@ -299,6 +299,8 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - download: current
+      artifact: zippedApp
     - task: AzureWebApp@1
       inputs:
         azureSubscription: 'ServiceConnection_BigData-NORMATIZAI'

@@ -68,12 +68,14 @@ stages:
           az extension add --name authV2 --yes
           az version
           az webapp auth microsoft update \
-            --resource-group $(RESOURCE_GROUP) \
-            --name $(APP_NAME) \
-            --client-id $(CLIENT_ID) \
-            --client-secret $(CLIENT_SECRET) \
-            --issuer https://sts.windows.net/$(TENANT_ID)/ \
-            --debug
+          --resource-group $(RESOURCE_GROUP) \
+          --name $(APP_NAME) \
+          --client-id $(CLIENT_ID) \
+          --client-secret $(CLIENT_SECRET) \
+          --issuer https://sts.windows.net/$(TENANT_ID)/ \
+          --yes \
+          --debug
+
 
   - job: ZipAppCode
     displayName: 'Zip Application Code'

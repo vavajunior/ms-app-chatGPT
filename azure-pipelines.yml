@@ -121,7 +121,7 @@ stages:
         appName: '$(APP_NAME)'
         package: '$(Pipeline.Workspace)/zippedApp/normatizai.zip'
         appSettings: |
-          -SCM_DO_BUILD_DURING_DEPLOYMENT "true"
+          -SCM_DO_BUILD_DURING_DEPLOYMENT "true" 
           -AUTH_CLIENT_SECRET $(AUTH_CLIENT_SECRET) 
           -AZURE_COSMOSDB_ACCOUNT $(AZURE_COSMOSDB_ACCOUNT) 
           -AZURE_COSMOSDB_ACCOUNT_KEY $(AZURE_COSMOSDB_ACCOUNT_KEY) 

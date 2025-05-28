@@ -79,7 +79,7 @@ stages:
 
   - job: ZipAppCode
     displayName: 'Zip Application Code'
-    dependsOn: SetStartupCommand
+    dependsOn: ConfigureAuthentication
     pool:
       vmImage: 'ubuntu-latest'
     steps:

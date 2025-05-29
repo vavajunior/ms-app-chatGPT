@@ -102,8 +102,7 @@ stages:
           --resource-group $(RESOURCE_GROUP) \
           --name $(APP_NAME) \
           --enabled true \
-          --unauthenticated-client-action RedirectToLoginPage \
-          --default-provider microsoft
+          --unauthenticated-client-action RedirectToLoginPage 
 
   - job: ZipAppCode
     displayName: 'Zip Application Code'

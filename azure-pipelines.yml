@@ -103,10 +103,6 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-      - script: |
-          chmod +x ./start.sh
-          ./start.sh
-        displayName: 'Executar script start.sh (build frontend e preparar backend)'
       - task: ArchiveFiles@2
         displayName: 'Zip source code'
         inputs:

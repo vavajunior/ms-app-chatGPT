@@ -85,17 +85,25 @@ stages:
         inlineScript: |
           set -e
           echo "Iniciando autenticação"
-          # az webapp auth microsoft update \
-          # --resource-group $(RESOURCE_GROUP) \
-          # --name $(APP_NAME) \
-          # --client-id $(CLIENT_ID) \
-          # --client-secret-setting-name "AUTH_CLIENT_SECRET" \
-          # --issuer "https://sts.windows.net/$(TENANT_ID)/" \
-          # --allowed-audiences "api://$(CLIENT_ID)" \
-          # --yes \
-          # --debug
+          az webapp auth config-version upgrade \
+          --resource-group $(RESOURCE_GROUP) \
+          --name $(APP_NAME) \
 
+          az webapp auth microsoft update \
+          --resource-group $(RESOURCE_GROUP) \
+          --name $(APP_NAME) \
+          --client-id $(CLIENT_ID) \
+          --client-secret-setting-name "AUTH_CLIENT_SECRET" \
+          --issuer "https://sts.windows.net/$(TENANT_ID)/" \
+          --yes \
+          --debug
 
+          az webapp auth update \
+          --resource-group $(RESOURCE_GROUP) \
+          --name $(APP_NAME) \
+          --enabled true \
+          --unauthenticated-client-action RedirectToLoginPage \
+          --default-provider microsoft
 
   - job: ZipAppCode
     displayName: 'Zip Application Code'

@@ -84,8 +84,9 @@ stages:
           --resource-group $(RESOURCE_GROUP) \
           --name $(APP_NAME) \
           --use-authv2 true
+          --yes \
           --debug
-          
+
           az webapp auth microsoft update \
           --resource-group $(RESOURCE_GROUP) \
           --name $(APP_NAME) \

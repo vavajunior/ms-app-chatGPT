@@ -25,7 +25,6 @@ stages:
         inlineScript: |
           az config set extension.use_dynamic_install=yes_without_prompt
           az config set extension.dynamic_install_allow_preview=true
-          az extension add --name authV2 --yes
           az version
   - job: CreateWebApp
     displayName: 'Create Azure Web App'
@@ -84,10 +83,15 @@ stages:
           --resource-group $(RESOURCE_GROUP) \
           --name $(APP_NAME) \
           --client-id $(CLIENT_ID) \
-          --client-secret $(CLIENT_SECRET) \
-          --issuer https://sts.windows.net/$(TENANT_ID)/ \
-          --yes \
-          --debug
+          --client-secret-setting-name "AUTH_CLIENT_SECRET" \
+          --issuer "https://sts.windows.net/$(TENANT_ID)/" \
+          --allowed-audiences "api://$(CLIENT_ID)" \
+          --yes
+
+          az webapp auth update \
+          --resource-group $(RESOURCE_GROUP) \
+          --name $(APP_NAME) \
+          --enabled true
 
 
   - job: ZipAppCode

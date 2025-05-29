@@ -89,7 +89,11 @@ stages:
           --yes \
           --debug
 
-
+          az webapp auth update \
+          --resource-group 080084-rg-normatizai-brazilsouth \
+          --name normatizai-app \
+          --enabled true \
+          --debug
   - job: ZipAppCode
     displayName: 'Zip Application Code'
     dependsOn: ConfigureAuthentication
@@ -124,7 +128,7 @@ stages:
         package: '$(Pipeline.Workspace)/zippedApp/normatizai.zip'
         appSettings: |
           -SCM_DO_BUILD_DURING_DEPLOYMENT "true" 
-          -AUTH_CLIENT_SECRET $(AUTH_CLIENT_SECRET) 
+          -AUTH_CLIENT_SECRET $(CLIENT_SECRET) 
           -AZURE_COSMOSDB_ACCOUNT $(AZURE_COSMOSDB_ACCOUNT) 
           -AZURE_COSMOSDB_ACCOUNT_KEY $(AZURE_COSMOSDB_ACCOUNT_KEY) 
           -AZURE_COSMOSDB_CONVERSATIONS_CONTAINER $(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER) 

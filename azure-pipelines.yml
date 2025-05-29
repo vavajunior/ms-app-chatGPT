@@ -89,11 +89,6 @@ stages:
           --yes \
           --debug
 
-          az webapp auth update \
-          --resource-group 080084-rg-normatizai-brazilsouth \
-          --name normatizai-app \
-          --enabled true \
-          --debug
   - job: ZipAppCode
     displayName: 'Zip Application Code'
     dependsOn: ConfigureAuthentication

@@ -80,11 +80,6 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          az config set extension.use_dynamic_install=yes_without_prompt
-          az config set extension.dynamic_install_allow_preview=true
-          az extension add --name authV2 --yes
-          az version
-          
           az webapp auth microsoft update \
           --resource-group $(RESOURCE_GROUP) \
           --name $(APP_NAME) \
@@ -93,6 +88,7 @@ stages:
           --issuer https://sts.windows.net/$(TENANT_ID)/ \
           --yes \
           --debug
+
 
   - job: ZipAppCode
     displayName: 'Zip Application Code'

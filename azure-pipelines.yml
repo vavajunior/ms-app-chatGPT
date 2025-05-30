@@ -70,43 +70,9 @@ stages:
             --startup-file "gunicorn --bind=0.0.0.0:8000 --timeout 600 app:app" \
             --debug
 
-  - job: ConfigureAuthentication
-    displayName: 'Configure Microsoft Auth'
-    dependsOn: SetStartupCommand
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - task: AzureCLI@2
-      displayName: 'Set Auth Microsoft Identity'
-      inputs:
-        azureSubscription: "ServiceConnection_BigData-NORMATIZAI"
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          set -e
-          echo "Iniciando autenticação"
-          az webapp auth config-version upgrade \
-          --resource-group $(RESOURCE_GROUP) \
-          --name $(APP_NAME) \
-
-          az webapp auth microsoft update \
-          --resource-group $(RESOURCE_GROUP) \
-          --name $(APP_NAME) \
-          --client-id $(CLIENT_ID) \
-          --client-secret-setting-name "AUTH_CLIENT_SECRET" \
-          --issuer "https://sts.windows.net/$(TENANT_ID)/" \
-          --yes \
-          --debug
-
-          az webapp auth update \
-          --resource-group $(RESOURCE_GROUP) \
-          --name $(APP_NAME) \
-          --enabled true \
-          --unauthenticated-client-action RedirectToLoginPage 
-
   - job: ZipAppCode
     displayName: 'Zip Application Code'
-    dependsOn: ConfigureAuthentication
+    dependsOn: SetStartupCommand
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -181,7 +147,41 @@ stages:
           -UI_TITLE $(UI_TITLE) 
           -UI_TITLE_FOOTER $(UI_TITLE_FOOTER) 
           -WEBSITE_HTTPLOGGING_RETENTION_DAYS $(WEBSITE_HTTPLOGGING_RETENTION_DAYS) 
-      
+  
+  - job: ConfigureAuthentication
+    displayName: 'Configure Microsoft Auth'
+    dependsOn: DeployAppCode
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Set Auth Microsoft Identity'
+      inputs:
+        azureSubscription: "ServiceConnection_BigData-NORMATIZAI"
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          set -e
+          echo "Iniciando autenticação"
+          az webapp auth config-version upgrade \
+          --resource-group $(RESOURCE_GROUP) \
+          --name $(APP_NAME) \
+
+          az webapp auth microsoft update \
+          --resource-group $(RESOURCE_GROUP) \
+          --name $(APP_NAME) \
+          --client-id $(CLIENT_ID) \
+          --client-secret-setting-name "AUTH_CLIENT_SECRET" \
+          --issuer "https://sts.windows.net/$(TENANT_ID)/" \
+          --yes \
+          --debug
+
+          az webapp auth update \
+          --resource-group $(RESOURCE_GROUP) \
+          --name $(APP_NAME) \
+          --enabled true \
+          --unauthenticated-client-action RedirectToLoginPage 
+
   - job: RestartAppService
     displayName: 'Restart Azure App Service'
     dependsOn: DeployAppCode  # garante que só roda depois do deploy

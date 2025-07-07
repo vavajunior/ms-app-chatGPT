@@ -49,6 +49,11 @@
   margin-bottom: 0px;
 }
 
+.chatEmptyStateTitle .ai {
+  color: #1C54FF;
+  margin-left: 4px;
+}
+
 .chatEmptyStateSubtitle {
   margin-top: 20px;
   font-style: normal;

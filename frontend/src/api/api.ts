@@ -354,11 +354,12 @@ export const historyMessageFeedback = async (messageId: string, feedback: string
   return response
 }
 
-export const historyDocumentDetails = async (filepath: string): Promise<DocumentDetails | null> => {
+export const historyDocumentDetails = async (filepath: string, prefix: string): Promise<DocumentDetails | null> => {
   const response = await fetch('/history/document_details', {
     method: 'POST',
     body: JSON.stringify({
-      file_path: filepath
+      file_path: filepath,
+      prefix: prefix
     }),
     headers: {
       'Content-Type': 'application/json'

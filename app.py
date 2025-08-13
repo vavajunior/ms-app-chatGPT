@@ -868,14 +868,17 @@ async def get_document_details():
    ## check request for file_path
     request_json = await request.get_json()
     file_path = request_json.get("file_path", None)
+    prefix = request_json.get("prefix", None)
 
     if not file_path:
         return jsonify({"error": "file_path is required"}), 400
+    if not prefix:
+        return jsonify({"error": "prefix is required"}), 400
         
     if app_settings.storage_account is None:
         return jsonify({"error": "The Storage Account is not configured."}), 400
     
-    blob_url, blob_titulo, blob_metadata = get_blob_details(blob_name=file_path,
+    blob_url, blob_titulo, blob_metadata = get_blob_details(prefix= prefix,blob_name=file_path,
                             container_name=app_settings.storage_account.container,
                             account_url=app_settings.storage_account.endpoint_blob, 
                             account_key=app_settings.storage_account.key)

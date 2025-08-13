@@ -705,8 +705,8 @@ const Chat = () => {
   const onShowCitation = async (citation: Citation) => {
     setIsCitationPanelOpen(true)
 
-    if (citation.filepath) {
-      const document_details = await historyDocumentDetails(citation.filepath)
+    if (citation.filepath && citation.url) {
+      const document_details = await historyDocumentDetails(citation.filepath, citation.url)
       citation.document_details = document_details
       console.log("document_details", document_details)
     }
@@ -718,11 +718,11 @@ const Chat = () => {
   }
 
   const onViewSource = (citation: Citation) => {
-    if (citation.url && !citation.url.includes('blob.core')) {
-      window.open(citation.url, '_blank')
-    }
-    else if (citation.document_details) {
+    if (citation.document_details) {
       window.open(citation.document_details.blob_url, '_blank')
+    }
+    else if (citation.url && citation.url.includes('blob.core')) {
+      window.open(citation.url, '_blank')
     }
   }
 
@@ -804,8 +804,8 @@ const Chat = () => {
             {!messages || messages.length < 1 ? (
               <Stack className={styles.chatEmptyState}>
                 <img src={logo} className={styles.chatIcon} aria-hidden="true" />
-                  <h1 className={styles.chatEmptyStateTitle}>
-                    <span>Normatiza</span><span className={styles.ai}>AI</span>
+                <h1 className={styles.chatEmptyStateTitle}>
+                  <span>Normatiza</span><span className={styles.ai}>AI</span>
                 </h1>
                 <h2 className={styles.chatEmptyStateSubtitle}>{ui?.chat_description}</h2>
               </Stack>

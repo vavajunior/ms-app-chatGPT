@@ -4,14 +4,15 @@ from azure.core.exceptions import ResourceNotFoundError
 from datetime import datetime, timezone, timedelta
 from urllib.parse import unquote
 
-def get_blob_details (blob_name, container_name, account_url, account_key):
+def get_blob_details (prefix, blob_name, container_name, account_url, account_key):
     try:
         blob_service_client = BlobServiceClient(  
             account_url=account_url,
             credential=account_key
         )
 
-        blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
+        blob_full_name = f"{prefix}/{blob_name}" if prefix else blob_name
+        blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_full_name)
         blob_properties = blob_client.get_blob_properties()
         blob_metadata = blob_properties.metadata
 
@@ -46,7 +47,7 @@ def format_metadata(blob_metadata, blob_name):
     # Remove o Titulo da lista blob_metadata
     blob_titulo = unquote(blob_metadata.get("Titulo", blob_name))
     blob_codigo = blob_metadata.get("Codigo", "")
-    blob_titulo_aux = f"{blob_codigo} - {blob_titulo}"    
+    blob_titulo_aux = f"{blob_codigo} - {blob_titulo}" if blob_codigo else blob_titulo
     if "Titulo" in blob_metadata:
         del blob_metadata["Titulo"]
 

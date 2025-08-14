@@ -11,7 +11,7 @@ def get_blob_details (prefix, blob_name, container_name, account_url, account_ke
             credential=account_key
         )
 
-        blob_full_name = f"{prefix}/{blob_name}"
+        blob_full_name = f"{prefix}/{blob_name}" if prefix else blob_name
         blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_full_name)
         blob_properties = blob_client.get_blob_properties()
         blob_metadata = blob_properties.metadata

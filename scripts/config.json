@@ -1,15 +1,14 @@
 [
     {
-        "data_path": "C:\\Users\\osvaldo\\Downloads\\normas_publicadas2",
-        "url_prefix": "https://stnormaschatdev.blob.core.windows.net/normas",
-        "location": "eastus2",
-        "subscription_id": "cd5d59ac-94fe-4dff-8539-4453d2f1d67c",
-        "resource_group": "rg-normaschat-dev-eastus",
-        "search_service_name": "servicosearch",
-        "index_name": "teste-index",
+        "data_path": "<path to data>",
+        "location": "<azure region, e.g. 'westus2'>",
+        "subscription_id": "<subscription id>",
+        "resource_group": "<resource group name>",
+        "search_service_name": "<search service name to use or create>",
+        "index_name": "<index name to use or create>",
         "chunk_size": 1024,
         "token_overlap": 128,
         "semantic_config_name": "default",
-        "language": "pt-Br"
+        "language": "<Language to support for example use 'en' for English. Checked supported languages here under lucene - https://learn.microsoft.com/en-us/azure/search/index-add-language-analyzers"
     }
 ]
